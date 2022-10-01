@@ -4,13 +4,15 @@
         <attribute name="name" value=""/>
         <attribute name="authors" value="jacob.vincent.331_ac"/>
         <attribute name="about" value=""/>
-        <attribute name="saved" value="2022-09-30 01:53:07 PM"/>
+        <attribute name="saved" value="2022-10-01 04:44:50 PM"/>
         <attribute name="created" value="amFjb2IudmluY2VudC4zMzFfYWM7Tk9SVy1QQy0wMy0xMjsyMDIyLTA5LTMwOzEyOjMyOjAyIFBNOzM4ODI="/>
         <attribute name="edited" value="amFjb2IudmluY2VudC4zMzFfYWM7Tk9SVy1QQy0wMy0xMjsyMDIyLTA5LTMwOzAxOjUzOjA3IFBNOzE7Mzk5Ng=="/>
+        <attribute name="edited" value="amFjb2I7TEFQVE9QLUtHRkFSTjlLOzIwMjItMTAtMDE7MDQ6NDQ6NTAgUE07MTsyOTcw"/>
     </attributes>
     <function name="Main" type="None" variable="">
         <parameters/>
         <body>
+            <declare name="GuessedLetters" type="String" array="True" size="8"/>
             <declare name="NewDisplay" type="String" array="False" size=""/>
             <declare name="Won" type="Boolean" array="False" size=""/>
             <assign variable="Won" expression="False"/>
@@ -18,6 +20,7 @@
             <assign variable="Guesses" expression="0"/>
             <declare name="Guess" type="String" array="False" size=""/>
             <declare name="word" type="String" array="False" size=""/>
+            <output expression="&quot;Enter the word(s) to guess - lowercase letters and space only&quot;" newline="True"/>
             <input variable="word"/>
             <declare name="WordLength" type="Integer" array="False" size=""/>
             <assign variable="WordLength" expression="len(Word)"/>
@@ -25,15 +28,33 @@
             <assign variable="GuessedSoFar" expression="&quot;&quot;"/>
             <declare name="a" type="Integer" array="False" size=""/>
             <for variable="a" start="0" end="WordLength-1" direction="inc" step="1">
-                <assign variable="GuessedSoFar" expression="GuessedSoFar &amp; &quot;_ &quot;"/>
+                <if expression="char(word,a) == &quot; &quot;">
+                    <then>
+                        <assign variable="GuessedSoFar" expression="GuessedSoFar &amp; &quot;  &quot;"/>
+                    </then>
+                    <else>
+                        <assign variable="GuessedSoFar" expression="GuessedSoFar &amp; &quot;_ &quot;"/>
+                    </else>
+                </if>
             </for>
             <declare name="GuessInWord" type="Boolean" array="False" size=""/>
             <for variable="a" start="0" end="100" direction="inc" step="1">
                 <output expression="&quot;&quot;" newline="True"/>
             </for>
+            <for variable="a" start="0" end="7" direction="inc" step="1">
+                <assign variable="GuessedLetters[a]" expression="&quot; &quot;"/>
+            </for>
             <while expression="(Won == False) and (Guesses &lt;= 6)">
                 <comment text="mainloop"/>
-                <output expression="&quot;The word guessed so far is: &quot; &amp; GuessedSoFar &amp; &quot; The length is &quot; &amp; WordLength &amp; &quot; Lives left: &quot; &amp; 6 - Guesses &amp; &quot; Enter your guess&quot;" newline="True"/>
+                <output expression="&quot;The word guessed so far is: &quot; &amp; GuessedSoFar" newline="True"/>
+                <output expression="&quot;The length is &quot; &amp; WordLength" newline="True"/>
+                <output expression="&quot;Lives left: &quot; &amp; 7 - Guesses" newline="True"/>
+                <output expression="&quot;Incorrect letters: &quot;" newline="False"/>
+                <for variable="a" start="0" end="7" direction="inc" step="1">
+                    <output expression="GuessedLetters[a] &amp; &quot; &quot;" newline="False"/>
+                </for>
+                <output expression="&quot;&quot;" newline="True"/>
+                <output expression="&quot;Enter your guess: &quot;" newline="True"/>
                 <input variable="Guess"/>
                 <assign variable="GuessInWord" expression="False"/>
                 <declare name="i" type="Integer" array="False" size=""/>
@@ -77,8 +98,12 @@
                     <else>
                         <output expression="&quot;Your guess is incorrect.&quot;" newline="True"/>
                         <assign variable="Guesses" expression="Guesses + 1"/>
+                        <assign variable="GuessedLetters[Guesses]" expression="Guess"/>
                     </else>
                 </if>
+                <for variable="a" start="0" end="100" direction="inc" step="1">
+                    <output expression="&quot;&quot;" newline="True"/>
+                </for>
             </while>
             <output expression="&quot;The word was &quot; &amp; word" newline="True"/>
             <if expression="Won">
